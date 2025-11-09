@@ -4,7 +4,6 @@ import {combineReducers} from "redux";
 import authReducer from "./reducers/auth.ts";
 import {configureStore} from "@reduxjs/toolkit";
 import localStorage from "redux-persist/lib/storage";
-import type {BadgeType, CompanyStatus, PackageServiceType} from "../types/auth.type.ts";
 
 export interface IAuthState {
     id?: number;
@@ -13,11 +12,6 @@ export interface IAuthState {
     roleNames: string[];
     isAuthenticated: boolean;
     accessToken: string;
-    refreshToken: string;
-    firstUpdated: boolean;
-    companyStatus: CompanyStatus | null;
-    badges: BadgeType[];
-    packageService: PackageServiceType
 }
 
 export interface IAppState {
