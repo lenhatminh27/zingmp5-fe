@@ -6,7 +6,7 @@ import {configureStore} from "@reduxjs/toolkit";
 import localStorage from "redux-persist/lib/storage";
 
 export interface IAuthState {
-    id?: number;
+    id?: string;
     email: string;
     fullName: string;
     roleNames: string[];
@@ -26,7 +26,7 @@ const persistConfig: PersistConfig<IAppState> = {
 };
 
 const rootReducers = combineReducers({
-    auth: authReducer.reducer,
+    auth: authReducer,
 });
 
 export const store = configureStore({

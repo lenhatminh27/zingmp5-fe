@@ -1,23 +1,17 @@
-import {useSelector} from "react-redux";
+import React from "react";
 import {Navigate, Outlet, useLocation} from "react-router-dom";
-import {getRole, isUserAuthenticated} from "../store/reducers/auth.ts";
-import {Suspense} from "react";
+import {useSelector} from "react-redux";
 
-interface ProtectedRouteProps {
-    allowedRoles: string[];
-}
+const selectAccessToken = (s: any) => s.auth?.accessToken;
 
-const ProtectedRoute = ({allowedRoles}: ProtectedRouteProps) => {
+const RequireAuth: React.FC = () => {
+    const token = useSelector(selectAccessToken);
     const location = useLocation();
-    const isAuthenticated = useSelector(isUserAuthenticated);
-    const roles = useSelector(getRole)
-    const isAuthorized = roles?.some(role => allowedRoles.includes(role));
 
-    if (!isAuthenticated || !isAuthorized) {
-        return <Navigate to="/login" state={{from: location}} replace/>;
+    if (!token) {
+        return <Navigate to="/login" replace state={{from: location}}/>;
     }
-
-    return <Suspense fallback={<div>Loading...</div>}><Outlet/></Suspense>;
+    return <Outlet/>;
 };
 
-export default ProtectedRoute;
+export default RequireAuth;
