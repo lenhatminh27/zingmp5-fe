@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import type {AxiosError, AxiosResponse} from "axios";
 import {useAxiosInstance} from "./useAxiosInstance";
 import type {IResponse} from "../types/response.type";
@@ -33,7 +33,7 @@ export const useSongs = () => {
     const instance = useAxiosInstance();
     const [isLoading, setIsLoading] = useState(false);
 
-    const getSongs = async () => {
+    const getSongs = useCallback(async () => {
         setIsLoading(true);
         try {
             const res: AxiosResponse<IResponse<ISong[]>> = await instance.get(PATH.list);
@@ -44,7 +44,7 @@ export const useSongs = () => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [instance])
 
     const getSong = async (id: string) => {
         setIsLoading(true);
@@ -139,5 +139,16 @@ export const useSongs = () => {
         }
     };
 
-    return {isLoading, getSongs, getSong, getSongStats, createSong, updateSong, deleteSong};
+    const list = getSongs;
+
+    return {
+        isLoading,
+        list,            // <- thêm alias
+        getSongs,
+        getSong,
+        getSongStats,
+        createSong,
+        updateSong,
+        deleteSong
+    };
 };

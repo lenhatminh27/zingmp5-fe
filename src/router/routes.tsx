@@ -11,6 +11,8 @@ import Dashboard from "../pages/admin/Dashboard";
 import Forbidden from "../pages/Forbidden";
 import NotFound from "../pages/NotFound";
 import UserLayout from "../components/user/layout/UserLayout.tsx";
+import Login from "../pages/auth/LoginPage.tsx";
+import Register from "../pages/auth/Register.tsx";
 
 const AppRoutes: React.FC = () => {
     return (
@@ -18,6 +20,8 @@ const AppRoutes: React.FC = () => {
             <Routes>
                 {/* USER LAYOUT */}
                 <Route element={<UserLayout/>}>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
                     <Route index element={<Home/>}/>
                     <Route path="library" element={<Library/>}/>
 

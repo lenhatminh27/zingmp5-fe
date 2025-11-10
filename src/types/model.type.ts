@@ -80,12 +80,12 @@ export interface ISong {
     slug: string;
     title: string;
 
-    album_id?: string;            // Album id
-    artists: string[];            // Artist ids
-    genres: string[];             // Genre ids
+    album_id?: string | IAlbum;
+    artists: Array<string | IArtist>;
+    genres: Array<string | IGenre>;
     likes?: number;
     views?: number;
-    liked_by?: string[];          // Account ids
+    liked_by?: string[];
 }
 
 export interface IComment {
