@@ -29,7 +29,7 @@ const TrackCard: React.FC<Props> = ({song, onPlay, onMore}) => {
 
                 {/* Play on hover */}
                 <button
-                    className="absolute bottom-3 right-3 flex items-center justify-center h-10 w-10 rounded-full text-black font-semibold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute bottom-1/2 right-1/2 translate-x-[50%] translate-y-[50%] flex items-center justify-center h-14 w-14 rounded-full text-black font-semibold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{background: "linear-gradient(90deg,#1DB954,#3ea6c1)"}}
                     onClick={() => onPlay?.(song)}
                     aria-label="Play"
@@ -49,13 +49,6 @@ const TrackCard: React.FC<Props> = ({song, onPlay, onMore}) => {
                         <h3 className="truncate text-sm font-semibold">{song.title}</h3>
                     </div>
 
-                    <button
-                        className="h-8 w-8 shrink-0 rounded-full border border-[#262626] text-neutral-300 hover:bg-[#1a1a1a]"
-                        title="More"
-                        onClick={() => onMore?.(song)}
-                    >
-                        ⋯
-                    </button>
                 </div>
 
 
