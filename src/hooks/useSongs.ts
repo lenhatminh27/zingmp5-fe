@@ -1,9 +1,9 @@
-import {useCallback, useState} from "react";
-import type {AxiosError, AxiosResponse} from "axios";
-import {useAxiosInstance} from "./useAxiosInstance";
-import type {IResponse} from "../types/response.type";
-import {getErrorMessage} from "../utils/helpers";
-import type {ISong, ISongStats} from "../types/model.type.ts";
+import { useCallback, useState } from "react";
+import type { AxiosError, AxiosResponse } from "axios";
+import { useAxiosInstance } from "./useAxiosInstance";
+import type { IResponse } from "../types/response.type";
+import { getErrorMessage } from "../utils/helpers";
+import type { ISong, ISongStats } from "../types/model.type.ts";
 
 const PATH = {
     list: "/songs",
@@ -12,7 +12,7 @@ const PATH = {
 };
 
 // multipart arrays theo swagger: artists[] / genres[]
-const toFormData = (payload: Record<string, any>) => {
+const toFormData = (payload: Record<string, unknown>) => {
     const fd = new FormData();
     Object.entries(payload || {}).forEach(([k, v]) => {
         if (v === undefined || v === null) return;
@@ -32,6 +32,7 @@ const toFormData = (payload: Record<string, any>) => {
 export const useSongs = () => {
     const instance = useAxiosInstance();
     const [isLoading, setIsLoading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
 
     const getSongs = useCallback(async () => {
         setIsLoading(true);
@@ -75,54 +76,90 @@ export const useSongs = () => {
     // Tạo; nếu có files: gửi multipart với keys: image, file_path
     const createSong = async (
         payload: Omit<ISong, "_id" | "slug" | "likes" | "views" | "liked_by">,
-        files?: { image?: File | null; audio?: File | null }
+        files?: { image?: File | null; file_path?: File | null },
+        onUploadProgress?: (progress: number) => void
     ) => {
         setIsLoading(true);
+        setUploadProgress(0);
         try {
-            if (files?.image || files?.audio) {
+            if (files?.image || files?.file_path) {
                 const fd = toFormData({
                     ...payload,
                     image: files?.image || undefined,
-                    file_path: files?.audio || undefined,
+                    file_path: files?.file_path || undefined,
                 });
                 const res: AxiosResponse<IResponse<ISong>> =
-                    await instance.post(PATH.list, fd, {headers: {"Content-Type": "multipart/form-data"}});
+                    await instance.post(PATH.list, fd, {
+                        headers: { "Content-Type": "multipart/form-data" },
+                        onUploadProgress: (progressEvent) => {
+                            if (progressEvent.total) {
+                                const percentCompleted = Math.round(
+                                    (progressEvent.loaded * 100) / progressEvent.total
+                                );
+                                setUploadProgress(percentCompleted);
+                                if (onUploadProgress) {
+                                    onUploadProgress(percentCompleted);
+                                }
+                            }
+                        }
+                    });
+                setUploadProgress(100);
                 return res.data.data;
             }
             const res: AxiosResponse<IResponse<ISong>> = await instance.post(PATH.list, payload);
             return res.data.data;
         } catch (e) {
+            setUploadProgress(0);
             getErrorMessage(e as AxiosError);
             throw e;
         } finally {
             setIsLoading(false);
+            setTimeout(() => setUploadProgress(0), 500);
         }
     };
 
     const updateSong = async (
         id: string,
         payload: Partial<ISong>,
-        files?: { image?: File | null; audio?: File | null }
+        files?: { image?: File | null; file_path?: File | null },
+        onUploadProgress?: (progress: number) => void
     ) => {
         setIsLoading(true);
+        setUploadProgress(0);
         try {
-            if (files?.image || files?.audio) {
+            if (files?.image || files?.file_path) {
                 const fd = toFormData({
                     ...payload,
                     image: files?.image || undefined,
-                    file_path: files?.audio || undefined,
+                    file_path: files?.file_path || undefined,
                 });
                 const res: AxiosResponse<IResponse<ISong>> =
-                    await instance.put(PATH.byId(id), fd, {headers: {"Content-Type": "multipart/form-data"}});
+                    await instance.put(PATH.byId(id), fd, {
+                        headers: { "Content-Type": "multipart/form-data" },
+                        onUploadProgress: (progressEvent) => {
+                            if (progressEvent.total) {
+                                const percentCompleted = Math.round(
+                                    (progressEvent.loaded * 100) / progressEvent.total
+                                );
+                                setUploadProgress(percentCompleted);
+                                if (onUploadProgress) {
+                                    onUploadProgress(percentCompleted);
+                                }
+                            }
+                        }
+                    });
+                setUploadProgress(100);
                 return res.data.data;
             }
             const res: AxiosResponse<IResponse<ISong>> = await instance.put(PATH.byId(id), payload);
             return res.data.data;
         } catch (e) {
+            setUploadProgress(0);
             getErrorMessage(e as AxiosError);
             throw e;
         } finally {
             setIsLoading(false);
+            setTimeout(() => setUploadProgress(0), 500);
         }
     };
 
@@ -143,6 +180,7 @@ export const useSongs = () => {
 
     return {
         isLoading,
+        uploadProgress,
         list,            // <- thêm alias
         getSongs,
         getSong,
