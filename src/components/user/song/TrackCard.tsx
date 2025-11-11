@@ -1,6 +1,7 @@
 import React from "react";
 import type {ISong} from "../../../types/model.type";
 import {formatDuration, getArtistNames} from "../../../utils/helpers";
+import {Link} from "react-router-dom";
 
 type Props = {
     song: ISong;
@@ -20,27 +21,32 @@ const TrackCard: React.FC<Props> = ({song, onPlay, onMore}) => {
         <article
             className="group overflow-hidden rounded-2xl border border-[#262626] bg-[#111]/60 hover:bg-[#151515] transition-colors">
             {/* Cover */}
-            <div className="relative aspect-square w-full bg-[#1a1a1a]">
-                <img
-                    src={cover}
-                    alt={song.title}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    loading="lazy"
-                />
+            <Link to={`/song/${song._id}`} className="block relative aspect-square w-full bg-[#1a1a1a]">
+                <div className="relative aspect-square w-full bg-[#1a1a1a]">
+                    <img
+                        src={cover}
+                        alt={song.title}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        loading="lazy"
+                    />
 
-                {/* Play on hover */}
-                <button
-                    className="absolute bottom-1/2 right-1/2 translate-x-[50%] translate-y-[50%] flex items-center justify-center h-14 w-14 rounded-full text-black font-semibold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{background: "linear-gradient(90deg,#1DB954,#3ea6c1)"}}
-                    onClick={() => onPlay?.(song)}
-                    aria-label="Play"
-                    title="Play"
-                >
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"></path>
-                    </svg>
-                </button>
-            </div>
+                    {/* Play on hover */}
+                    <button
+                        className="absolute bottom-1/2 right-1/2 translate-x-[50%] translate-y-[50%] flex items-center justify-center h-14 w-14 rounded-full text-black font-semibold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                        style={{background: "linear-gradient(90deg,#1DB954,#3ea6c1)"}}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onPlay?.(song);
+                        }}
+                        aria-label="Play"
+                        title="Play"
+                    >
+                        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </Link>
 
             {/* Content */}
             <div className="p-3">

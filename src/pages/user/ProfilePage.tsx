@@ -7,9 +7,12 @@ import ProfileContent from "../../components/user/profile/ProfileContent.tsx";
 import {useSelector} from "react-redux";
 import {getId} from "../../store/reducers/auth.ts";
 import EditProfileModal from "../../components/user/profile/EditProfileModal.tsx";
+import {useLocation} from "react-router-dom";
 
 const ProfilePage: React.FC = () => {
     const userId = useSelector(getId) || ""
+    const location = useLocation()
+    const id = location.pathname.split("/")[2]
     const {getArtistByUserId} = useArtists();
     const {getAccount} = useAccounts();
 
@@ -22,7 +25,7 @@ const ProfilePage: React.FC = () => {
         setIsLoading(true);
         setError(null);
         try {
-            const artistData = await getArtistByUserId(userId);
+            const artistData = await getArtistByUserId(id);
             setProfileData(artistData);
         } catch (artistError) {
             console.warn("Could not fetch artist data, falling back to account data.", artistError);
@@ -44,7 +47,7 @@ const ProfilePage: React.FC = () => {
         fetchProfile().then();
     }, [userId]);
 
-    const isOwnProfile = profileData?._id === userId || profileData?.userId?._id === userId;
+    const isOwnProfile = userId === id
 
     if (isLoading) {
         return <div className="text-center p-10">Loading profile...</div>;

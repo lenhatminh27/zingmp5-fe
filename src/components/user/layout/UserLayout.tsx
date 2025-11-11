@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Link, NavLink, Outlet} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {getEmail, getName, getRole, isUserAuthenticated} from "../../../store/reducers/auth.ts";
+import {getEmail, getId, getName, getRole, isUserAuthenticated} from "../../../store/reducers/auth.ts";
 import {useAuth} from "../../../hooks/useAuth.ts";
 import {ROLES} from "../../../constants/role.ts";
 import MusicPlayer from "../song/MusicPlayer.tsx";
@@ -40,6 +40,7 @@ const UserMenu: React.FC = () => {
     const email = useSelector(getEmail);
     const name = useSelector(getName);
     const roles = useSelector(getRole);
+    const userId = useSelector(getId)
     const {logout} = useAuth();
 
     const [open, setOpen] = useState(false);
@@ -91,7 +92,7 @@ const UserMenu: React.FC = () => {
 
                     <div className="flex flex-col">
                         <Link
-                            to="/profile"
+                            to={`/profile/${userId}`}
                             className="px-3 py-2 text-sm rounded-lg hover:bg-[#1a1a1a] text-neutral-200"
                             onClick={() => setOpen(false)}
                         >

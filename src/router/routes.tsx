@@ -20,6 +20,8 @@ import UserLayout from "../components/user/layout/UserLayout.tsx";
 import Login from "../pages/auth/LoginPage.tsx";
 import Register from "../pages/auth/Register.tsx";
 import ProfilePage from "../pages/user/ProfilePage.tsx";
+import SongDetailPage from "../pages/user/SongDetailPage.tsx";
+import AlbumDetailPage from "../pages/user/AlbumDetailPage.tsx";
 
 const AppRoutes: React.FC = () => {
     return (
@@ -30,10 +32,12 @@ const AppRoutes: React.FC = () => {
                     <Route path="/register" element={<Register/>}/>
                     <Route index element={<Home/>}/>
                     <Route path="library" element={<Library/>}/>
+                    <Route path="song/:id" element={<SongDetailPage/>}/>
+                    <Route path="album/:albumId" element={<AlbumDetailPage/>}/>
+                    <Route path="profile/:id" element={<ProfilePage/>}/>
 
                     <Route element={<RequireAuth/>}>
                         <Route path="become-artist" element={<BecomeArtistPage/>}/>
-                        <Route path="profile" element={<ProfilePage/>}/>
                         <Route element={<RequireRole allow={[ROLES.ARTIST]}/>}>
                             <Route path="upload" element={<UploadSongPage/>}/>
                             <Route path="upload/:id" element={<EditSongPage/>}/>
