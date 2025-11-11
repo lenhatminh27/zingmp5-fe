@@ -53,6 +53,14 @@ export interface IArtist {
 }
 
 export interface IGenre {
+    // _id: string;
+    // thumbnail?: string;
+    // name: string;
+    // slug: string;
+    // description?: string;
+    // songs: string[];              // Song ids
+    // createdAt?: string;
+    // updatedAt?: string;
     _id: string;
     thumbnail?: string;
     name: string;
