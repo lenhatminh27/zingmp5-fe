@@ -1,19 +1,28 @@
 import React from "react";
-import {Button, Form, Input} from "antd";
-import {useAuth} from "../../hooks/useAuth";
-import {Link, useNavigate} from "react-router-dom";
+import { Button, Form, Input } from "antd";
+import { useAuth } from "../../hooks/useAuth";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getRole } from "../../store/reducers/auth";
+import { ROLES } from "../../constants/role.ts";
 
 type LoginForm = { email: string; password: string };
 
 const Login: React.FC = () => {
-    const {login, isLoading} = useAuth();
+    const { login, isLoading } = useAuth();
     const [form] = Form.useForm<LoginForm>();
     const navigate = useNavigate();
+    const roles = useSelector(getRole);
 
     const onFinish = async (values: LoginForm) => {
         try {
             await login(values);
-            navigate("/", {replace: true});
+            // Redirect based on role
+            if (roles?.includes(ROLES.ADMIN)) {
+                navigate("/admin", { replace: true });
+            } else {
+                navigate("/", { replace: true });
+            }
         } catch (error) {
             console.log(error);
         }
@@ -32,8 +41,8 @@ const Login: React.FC = () => {
                         label={<span className="text-white">Email</span>}
                         name="email"
                         rules={[
-                            {required: true, message: "Vui lòng nhập email"},
-                            {type: "email", message: "Email không hợp lệ"},
+                            { required: true, message: "Vui lòng nhập email" },
+                            { type: "email", message: "Email không hợp lệ" },
                         ]}
                     >
                         <Input
@@ -46,7 +55,7 @@ const Login: React.FC = () => {
                     <Form.Item
                         label={<span className="text-white">Mật khẩu</span>}
                         name="password"
-                        rules={[{required: true, message: "Vui lòng nhập mật khẩu"}]}
+                        rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
                     >
                         <Input.Password
                             size="large"
