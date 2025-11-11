@@ -35,11 +35,13 @@ const AppRoutes: React.FC = () => {
                 <Route element={<UserLayout />}>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route index element={<PublicRoute><Home /></PublicRoute>} />
-                    <Route path="library" element={<Library />} />
-                    <Route path="song/:id" element={<SongDetailPage />} />
-                    <Route path="album/:albumId" element={<AlbumDetailPage />} />
-                    <Route path="profile/:id" element={<ProfilePage />} />
+                    <Route element={<PublicRoute />}>
+                        <Route index element={<Home />} />
+                        <Route path="library" element={<Library />} />
+                        <Route path="song/:id" element={<SongDetailPage />} />
+                        <Route path="album/:albumId" element={<AlbumDetailPage />} />
+                        <Route path="profile/:id" element={<ProfilePage />} />
+                    </Route>
 
                     <Route element={<RequireAuth />}>
                         <Route path="become-artist" element={<BecomeArtistPage />} />
