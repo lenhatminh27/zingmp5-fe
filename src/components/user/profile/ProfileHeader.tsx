@@ -1,7 +1,7 @@
 import React from 'react';
-import type {IAccount, IArtist} from "../../../types/model.type.ts";
-import {Avatar} from "antd";
-import {UserOutlined} from "@ant-design/icons";
+import type { IAccount, IArtist } from "../../../types/model.type.ts";
+import { Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 type Props = {
     profile: IArtist | IAccount;
@@ -11,9 +11,9 @@ const isArtist = (profile: IArtist | IAccount): profile is IArtist => {
     return 'stageName' in profile;
 };
 
-const ProfileHeader: React.FC<Props> = ({profile}) => {
+const ProfileHeader: React.FC<Props> = ({ profile }) => {
     const bannerUrl = isArtist(profile) ? profile.bannerUrl : null;
-    const avatarUrl = isArtist(profile) ? profile.avatarUrl : profile.avatar;
+    const avatarUrl = isArtist(profile) ? profile.userId.avatar : profile.avatar;
     const displayName = isArtist(profile) ? profile.stageName : profile.email;
     const location = isArtist(profile) ? profile.location : 'Music Lover';
 
@@ -24,7 +24,7 @@ const ProfileHeader: React.FC<Props> = ({profile}) => {
             {/* Banner */}
             <div
                 className="h-52 md:h-64 bg-cover bg-center"
-                style={{background: bannerUrl ? `url(${bannerUrl})` : defaultBanner}}
+                style={{ background: bannerUrl ? `url(${bannerUrl})` : defaultBanner }}
             />
 
             {/* Avatar & Info */}
@@ -34,7 +34,7 @@ const ProfileHeader: React.FC<Props> = ({profile}) => {
                         src={avatarUrl}
                         alt={displayName}
                         className="!w-32 !h-32 md:!w-40 md:!h-40 !rounded-full !object-cover !border-4 !border-black !bg-neutral-800"
-                    ><UserOutlined size={30} className={'!w-full !h-full !scale-[400%]'}/></Avatar>
+                    ><UserOutlined size={30} className={'!w-full !h-full !scale-[400%]'} /></Avatar>
                     <div className="flex-1 pb-2">
                         <h1 className="text-3xl font-bold">{displayName}</h1>
                         <p className="text-neutral-400">{location}</p>

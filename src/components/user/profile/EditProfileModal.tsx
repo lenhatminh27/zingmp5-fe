@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Avatar, Button, Divider, Form, Input, message, Modal, Upload} from 'antd';
-import {UploadOutlined} from '@ant-design/icons';
-import type {IAccount, IArtist} from "../../../types/model.type.ts";
-import {useAccounts} from "../../../hooks/useAccounts.ts";
-import {useArtists} from "../../../hooks/useArtists.ts";
+import React, { useEffect, useState } from 'react';
+import { Alert, Avatar, Button, Divider, Form, Input, message, Modal, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import type { IAccount, IArtist } from "../../../types/model.type.ts";
+import { useAccounts } from "../../../hooks/useAccounts.ts";
+import { useArtists } from "../../../hooks/useArtists.ts";
 
 type Props = {
     isOpen: boolean;
@@ -14,10 +14,10 @@ type Props = {
 
 const isArtist = (p: IAccount | IArtist): p is IArtist => 'stageName' in p;
 
-const EditProfileModal: React.FC<Props> = ({isOpen, onClose, profile, onSaveSuccess}) => {
+const EditProfileModal: React.FC<Props> = ({ isOpen, onClose, profile, onSaveSuccess }) => {
     const [form] = Form.useForm();
-    const {updateAccount} = useAccounts();
-    const {updateArtist} = useArtists();
+    const { updateAccount } = useAccounts();
+    const { updateArtist } = useArtists();
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState('');
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -54,18 +54,18 @@ const EditProfileModal: React.FC<Props> = ({isOpen, onClose, profile, onSaveSucc
             if (type === 'avatar') {
                 setAvatarFile(file);
                 setAvatarPreview(reader.result as string);
-            } else {
             }
+            // banner type handled in future
         };
 
         return false;
     };
 
-    const handleFinish = async (values: any) => {
+    const handleFinish = async (values: Record<string, string>) => {
         setIsSaving(true);
         setError('');
 
-        const apiCalls: Promise<any>[] = [];
+        const apiCalls: Promise<IAccount | IArtist | undefined>[] = [];
 
         if (isArtist(profile)) {
             const artistPayload: Partial<IArtist> = {};
@@ -79,9 +79,12 @@ const EditProfileModal: React.FC<Props> = ({isOpen, onClose, profile, onSaveSucc
 
         const accountPayload: Partial<IAccount> = {};
         if (values.email !== initialAccount.email) accountPayload.email = values.email;
-        const accountFiles = {avatar: avatarFile};
 
-        if (Object.keys(accountPayload).length > 0 || accountFiles.avatar) {
+        // Gửi avatar file nếu có thay đổi
+        const accountFiles = avatarFile ? { avatar: avatarFile } : undefined;
+
+        // Gọi update account nếu có thay đổi payload hoặc avatar file
+        if (Object.keys(accountPayload).length > 0 || avatarFile) {
             apiCalls.push(updateAccount(initialAccount._id, accountPayload, accountFiles));
         }
 
@@ -89,10 +92,14 @@ const EditProfileModal: React.FC<Props> = ({isOpen, onClose, profile, onSaveSucc
             if (apiCalls.length > 0) {
                 await Promise.all(apiCalls);
                 message.success('Profile updated successfully!');
+                setAvatarFile(null);
+            } else {
+                message.info('No changes to save.');
             }
             onSaveSuccess();
-        } catch (err: any) {
-            setError(err.message || 'Failed to save profile. Please try again.');
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : 'Failed to save profile. Please try again.';
+            setError(errorMessage);
         } finally {
             setIsSaving(false);
         }
@@ -114,37 +121,37 @@ const EditProfileModal: React.FC<Props> = ({isOpen, onClose, profile, onSaveSucc
             ]}
         >
             <Form form={form} onFinish={handleFinish} layout="vertical">
-                {error && <Alert message={error} type="error" showIcon closable className="mb-4"/>}
+                {error && <Alert message={error} type="error" showIcon closable className="mb-4" />}
 
                 <Divider orientation="left">Account Settings</Divider>
 
                 <Form.Item label="Profile Picture">
                     <div className="flex items-center gap-4">
                         <Avatar src={avatarPreview} alt="Avatar Preview"
-                                className="!w-24 !h-24 rounded-full object-cover bg-neutral-700"/>
+                            className="!w-24 !h-24 rounded-full object-cover bg-neutral-700" />
                         <Upload
                             name="avatar"
                             showUploadList={false}
                             beforeUpload={(file) => handleBeforeUpload(file, 'avatar')}
                         >
-                            <Button icon={<UploadOutlined/>}>Change Avatar</Button>
+                            <Button icon={<UploadOutlined />}>Change Avatar</Button>
                         </Upload>
                     </div>
                 </Form.Item>
-                <Form.Item name="email" label="Email" rules={[{required: true, type: 'email'}]}>
-                    <Input disabled={true}/>
+                <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
+                    <Input disabled={true} />
                 </Form.Item>
 
                 {isArtist(profile) && (
                     <>
                         <Divider orientation="left">Artist Settings</Divider>
 
-                        <Form.Item name="stageName" label="Display Name" rules={[{required: true}]}>
-                            <Input/>
+                        <Form.Item name="stageName" label="Display Name" rules={[{ required: true }]}>
+                            <Input />
                         </Form.Item>
 
                         <Form.Item name="bio" label="Bio">
-                            <Input.TextArea rows={4}/>
+                            <Input.TextArea rows={4} />
                         </Form.Item>
                     </>
                 )}

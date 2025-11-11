@@ -125,7 +125,7 @@ const AlbumDetailPage: React.FC = () => {
                             >
                                 {song.title}
                             </Link>
-                            <p className="text-sm text-neutral-400">{getArtistNames(song.artists.map((artist: IArtist) => artist.stageName) || [])}</p>
+                            <p className="text-sm text-neutral-400">{getArtistNames(song.artists.map((artist) => artist.stageName) || [])}</p>
                         </div>
                         <div className="w-24 text-neutral-400 text-right">{formatDuration(song.duration)}</div>
                     </div>
