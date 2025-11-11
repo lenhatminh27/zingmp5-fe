@@ -16,7 +16,19 @@ export interface IAccount {
     roles: Array<string | IRole>; // BE có nơi trả name string[], có nơi trả role object
 }
 
-
+export interface IAlbum {
+    _id: string;
+    created_by?: string;          // Account _id
+    last_modified_by?: string;    // Account _id
+    image?: string;
+    slug: string;
+    status?: string;
+    title: string;
+    artist: string[];             // Artist ids
+    songs: string[];              // Song ids
+    createdAt?: string;
+    updatedAt?: string;
+}
 
 export interface IArtist {
     _id: string;
