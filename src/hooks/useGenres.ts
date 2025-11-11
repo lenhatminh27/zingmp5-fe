@@ -1,9 +1,9 @@
-import {useState} from "react";
-import type {AxiosError, AxiosResponse} from "axios";
-import {useAxiosInstance} from "./useAxiosInstance";
-import type {IResponse} from "../types/response.type";
-import {getErrorMessage} from "../utils/helpers";
-import type {IGenre} from "../types/model.type.ts";
+import { useState } from "react";
+import type { AxiosError, AxiosResponse } from "axios";
+import { useAxiosInstance } from "./useAxiosInstance";
+import type { IResponse } from "../types/response.type";
+import { getErrorMessage } from "../utils/helpers";
+import type { IGenre } from "../types/model.type.ts";
 
 const PATH = {
     list: "/genres",
@@ -68,5 +68,5 @@ export const useGenres = () => {
         }
     };
 
-    return {isLoading, getGenres, createGenre, updateGenre, deleteGenre};
+    return { isLoading, getGenres, createGenre, updateGenre, deleteGenre };
 };

@@ -125,8 +125,8 @@ const UploadAlbumPage: React.FC = () => {
                         </label>
                         <div
                             className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragActive
-                                    ? "border-[#1DB954] bg-[#1DB954]/10"
-                                    : "border-neutral-700 bg-[#111] hover:border-neutral-600"
+                                ? "border-[#1DB954] bg-[#1DB954]/10"
+                                : "border-neutral-700 bg-[#111] hover:border-neutral-600"
                                 }`}
                             onDragEnter={handleDrag}
                             onDragLeave={handleDrag}
@@ -293,8 +293,8 @@ const UploadAlbumPage: React.FC = () => {
                             type="submit"
                             disabled={isLoading}
                             className={`flex-1 py-4 px-6 rounded-full font-semibold text-black transition-all ${isLoading
-                                    ? "bg-neutral-600 cursor-not-allowed"
-                                    : "bg-[#1DB954] hover:bg-[#1ed760] hover:scale-105"
+                                ? "bg-neutral-600 cursor-not-allowed"
+                                : "bg-[#1DB954] hover:bg-[#1ed760] hover:scale-105"
                                 }`}
                         >
                             {isLoading ? (
