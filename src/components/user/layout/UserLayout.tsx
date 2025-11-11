@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Link, NavLink, Outlet} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {getEmail, getId, getName, getRole, isUserAuthenticated} from "../../../store/reducers/auth.ts";
-import {useAuth} from "../../../hooks/useAuth.ts";
-import {ROLES} from "../../../constants/role.ts";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getEmail, getId, getName, getRole, isUserAuthenticated } from "../../../store/reducers/auth.ts";
+import { useAuth } from "../../../hooks/useAuth.ts";
+import { ROLES } from "../../../constants/role.ts";
 import MusicPlayer from "../song/MusicPlayer.tsx";
 
 const UploadButton: React.FC = () => {
@@ -41,7 +41,7 @@ const UserMenu: React.FC = () => {
     const name = useSelector(getName);
     const roles = useSelector(getRole);
     const userId = useSelector(getId)
-    const {logout} = useAuth();
+    const { logout } = useAuth();
 
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -88,7 +88,7 @@ const UserMenu: React.FC = () => {
 
                     </div>
 
-                    <div className="my-2 h-px bg-[#1f1f1f]"/>
+                    <div className="my-2 h-px bg-[#1f1f1f]" />
 
                     <div className="flex flex-col">
                         <Link
@@ -142,7 +142,7 @@ const UserMenu: React.FC = () => {
 
                         {isAdmin && (
                             <>
-                                <div className="my-2 h-px bg-[#1f1f1f]"/>
+                                <div className="my-2 h-px bg-[#1f1f1f]" />
                                 <Link
                                     to="/admin"
                                     className="px-3 py-2 text-sm rounded-lg hover:bg-[#1a1a1a] text-neutral-200"
@@ -154,7 +154,7 @@ const UserMenu: React.FC = () => {
                         )}
                     </div>
 
-                    <div className="my-2 h-px bg-[#1f1f1f]"/>
+                    <div className="my-2 h-px bg-[#1f1f1f]" />
 
                     <button
                         onClick={() => {
@@ -192,14 +192,14 @@ const UserLayout: React.FC = () => {
                     </Link>
                     <nav className="border-t border-[#161616]">
                         <div className="mx-auto max-w-6xl px-4 flex items-center gap-6">
-                            <NavLink to="/" end className={({isActive}) => navItemClass(isActive)}>
+                            <NavLink to="/" end className={({ isActive }) => navItemClass(isActive)}>
                                 Home
                             </NavLink>
-                            {authed && (
+                            {/* {authed && (
                                 <NavLink to="/library" className={({isActive}) => navItemClass(isActive)}>
                                     Library
                                 </NavLink>
-                            )}
+                            )} */}
                         </div>
                     </nav>
                     {/* Search (center) */}
@@ -220,8 +220,8 @@ const UserLayout: React.FC = () => {
                     <div className="ml-auto flex items-center gap-3">
                         {authed ? (
                             <>
-                                <UploadButton/>
-                                <UserMenu/>
+                                <UploadButton />
+                                <UserMenu />
                             </>
                         ) : (
                             <>
@@ -252,11 +252,11 @@ const UserLayout: React.FC = () => {
 
             {/* Page content */}
             <main className="mx-auto max-w-7xl px-4 py-6 pb-28">
-                <Outlet/>
-                <MusicPlayer/>
+                <Outlet />
+                <MusicPlayer />
             </main>
 
-            <footer className="h-0"/>
+            <footer className="h-0" />
         </div>
     );
 };
