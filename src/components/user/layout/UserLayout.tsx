@@ -110,10 +110,22 @@ const UserMenu: React.FC = () => {
                             </Link>
                         )}
 
+                        {/* AI Music Generator */}
+                        <div className="px-3 py-2 text-xs text-neutral-500 font-semibold mt-1 mb-1">
+                            Create
+                        </div>
+                        <Link
+                            to="/ai-generator"
+                            className="px-3 py-2 text-sm rounded-lg hover:bg-[#1a1a1a] text-neutral-200"
+                            onClick={() => setOpen(false)}
+                        >
+                            ✨ AI Music Generator
+                        </Link>
+
                         {/* Upload menu for Artists and Admins */}
                         {(roles?.includes(ROLES.ARTIST) || roles?.includes(ROLES.ADMIN)) && (
                             <>
-                                <div className="px-3 py-2 text-xs text-neutral-500 font-semibold mt-1 mb-1">
+                                <div className="px-3 py-2 text-xs text-neutral-500 font-semibold mt-3 mb-1">
                                     Upload
                                 </div>
                                 <Link

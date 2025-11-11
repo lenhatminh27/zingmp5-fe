@@ -26,6 +26,7 @@ import Register from "../pages/auth/Register.tsx";
 import ProfilePage from "../pages/user/ProfilePage.tsx";
 import SongDetailPage from "../pages/user/SongDetailPage.tsx";
 import AlbumDetailPage from "../pages/user/AlbumDetailPage.tsx";
+import MusicGeneratorPage from "../pages/user/MusicGeneratorPage.tsx";
 import PublicRoute from "./PublicRoute.tsx";
 
 const AppRoutes: React.FC = () => {
@@ -44,6 +45,7 @@ const AppRoutes: React.FC = () => {
                     </Route>
 
                     <Route element={<RequireAuth />}>
+                        <Route path="ai-generator" element={<MusicGeneratorPage />} />
                         <Route path="become-artist" element={<BecomeArtistPage />} />
                         <Route element={<RequireRole allow={[ROLES.ARTIST]} />}>
                             <Route path="upload" element={<UploadSongPage />} />

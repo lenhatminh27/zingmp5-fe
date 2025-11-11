@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.11.0",
     "@reduxjs/toolkit": "^2.9.1",
     "@tailwindcss/vite": "^4.1.15",
     "antd": "^5.27.6",
