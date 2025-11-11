@@ -1,11 +1,16 @@
-import {useState} from "react";
-import {type AxiosError, type AxiosResponse, toFormData} from "axios";
-import {useAxiosInstance} from "./useAxiosInstance";
-import type {IResponse} from "../types/response.type";
-import {getErrorMessage} from "../utils/helpers";
-import type {IAlbum, ISong} from "../types/model.type.ts";
+import { useState } from "react";
+import { type AxiosError, type AxiosResponse, toFormData } from "axios";
+import { useAxiosInstance } from "./useAxiosInstance";
+import type { IResponse } from "../types/response.type";
+import { getErrorMessage } from "../utils/helpers";
+import type { IAlbum, ISong } from "../types/model.type.ts";
 
 const PATH = {
+    // list: "/albums",
+    // create: "/albums/create",
+    // byId: (id: string) => `/albums/${id}`,
+    // songs: (id: string) => `/albums/${id}/songs`,
+    // removeSong: (albumId: string, songId: string) => `/albums/${albumId}/songs/${songId}`,
     list: "/albums",
     create: "/albums/create",
     byId: (id: string) => `/albums/${id}`,
@@ -69,7 +74,7 @@ export const useAlbums = () => {
             const res: AxiosResponse<IResponse<IAlbum>> = await instance.post(
                 PATH.create,
                 fd,
-                {headers: {"Content-Type": "multipart/form-data"}}
+                { headers: { "Content-Type": "multipart/form-data" } }
             );
             return res.data.data;
         } catch (e) {
@@ -94,7 +99,7 @@ export const useAlbums = () => {
             const res: AxiosResponse<IResponse<IAlbum>> = await instance.put(
                 PATH.byId(id),
                 fd,
-                {headers: {"Content-Type": "multipart/form-data"}}
+                { headers: { "Content-Type": "multipart/form-data" } }
             );
             return res.data.data;
         } catch (e) {
@@ -131,5 +136,5 @@ export const useAlbums = () => {
         }
     };
 
-    return {isLoading, getAlbums, getAlbum, getAlbumSongs, createAlbum, updateAlbum, deleteAlbum, removeSongFromAlbum};
+    return { isLoading, getAlbums, getAlbum, getAlbumSongs, createAlbum, updateAlbum, deleteAlbum, removeSongFromAlbum };
 };
