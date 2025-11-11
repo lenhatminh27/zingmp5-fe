@@ -1,9 +1,9 @@
-import { useState } from "react";
-import type { AxiosError, AxiosResponse } from "axios";
-import { useAxiosInstance } from "./useAxiosInstance";
-import type { IResponse } from "../types/response.type";
-import { getErrorMessage } from "../utils/helpers";
-import type { IAlbum, ISong } from "../types/model.type.ts";
+import {useState} from "react";
+import {type AxiosError, type AxiosResponse, toFormData} from "axios";
+import {useAxiosInstance} from "./useAxiosInstance";
+import type {IResponse} from "../types/response.type";
+import {getErrorMessage} from "../utils/helpers";
+import type {IAlbum, ISong} from "../types/model.type.ts";
 
 const PATH = {
     list: "/albums",
@@ -11,24 +11,6 @@ const PATH = {
     byId: (id: string) => `/albums/${id}`,
     songs: (id: string) => `/albums/${id}/songs`,
     removeSong: (albumId: string, songId: string) => `/albums/${albumId}/songs/${songId}`,
-};
-
-// Convert payload to FormData (similar to useSongs)
-const toFormData = (payload: Record<string, unknown>) => {
-    const fd = new FormData();
-    Object.entries(payload || {}).forEach(([k, v]) => {
-        if (v === undefined || v === null) return;
-        if (v instanceof Blob) {
-            fd.append(k, v);
-        } else if (Array.isArray(v)) {
-            v.forEach((item) => fd.append(`${k}[]`, String(item)));
-        } else if (typeof v === "object") {
-            fd.append(k, JSON.stringify(v));
-        } else {
-            fd.append(k, String(v));
-        }
-    });
-    return fd;
 };
 
 export const useAlbums = () => {
@@ -80,7 +62,6 @@ export const useAlbums = () => {
     ) => {
         setIsLoading(true);
         try {
-            // Always use FormData for multipart/form-data (even without file)
             const fd = toFormData({
                 ...payload,
                 image: files?.image || undefined,
@@ -88,7 +69,7 @@ export const useAlbums = () => {
             const res: AxiosResponse<IResponse<IAlbum>> = await instance.post(
                 PATH.create,
                 fd,
-                { headers: { "Content-Type": "multipart/form-data" } }
+                {headers: {"Content-Type": "multipart/form-data"}}
             );
             return res.data.data;
         } catch (e) {
@@ -106,7 +87,6 @@ export const useAlbums = () => {
     ) => {
         setIsLoading(true);
         try {
-            // Always use FormData for multipart/form-data (even without file)
             const fd = toFormData({
                 ...payload,
                 image: files?.image || undefined,
@@ -114,7 +94,7 @@ export const useAlbums = () => {
             const res: AxiosResponse<IResponse<IAlbum>> = await instance.put(
                 PATH.byId(id),
                 fd,
-                { headers: { "Content-Type": "multipart/form-data" } }
+                {headers: {"Content-Type": "multipart/form-data"}}
             );
             return res.data.data;
         } catch (e) {
@@ -151,5 +131,5 @@ export const useAlbums = () => {
         }
     };
 
-    return { isLoading, getAlbums, getAlbum, getAlbumSongs, createAlbum, updateAlbum, deleteAlbum, removeSongFromAlbum };
+    return {isLoading, getAlbums, getAlbum, getAlbumSongs, createAlbum, updateAlbum, deleteAlbum, removeSongFromAlbum};
 };

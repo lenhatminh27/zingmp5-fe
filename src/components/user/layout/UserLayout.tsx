@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getEmail, getName, getRole, isUserAuthenticated } from "../../../store/reducers/auth.ts";
-import { useAuth } from "../../../hooks/useAuth.ts";
-import { ROLES } from "../../../constants/role.ts";
+import React, {useEffect, useRef, useState} from "react";
+import {Link, NavLink, Outlet} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {getEmail, getName, getRole, isUserAuthenticated} from "../../../store/reducers/auth.ts";
+import {useAuth} from "../../../hooks/useAuth.ts";
+import {ROLES} from "../../../constants/role.ts";
 import MusicPlayer from "../song/MusicPlayer.tsx";
 
 const UploadButton: React.FC = () => {
@@ -40,7 +40,7 @@ const UserMenu: React.FC = () => {
     const email = useSelector(getEmail);
     const name = useSelector(getName);
     const roles = useSelector(getRole);
-    const { logout } = useAuth();
+    const {logout} = useAuth();
 
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -87,7 +87,7 @@ const UserMenu: React.FC = () => {
 
                     </div>
 
-                    <div className="my-2 h-px bg-[#1f1f1f]" />
+                    <div className="my-2 h-px bg-[#1f1f1f]"/>
 
                     <div className="flex flex-col">
                         <Link
@@ -141,7 +141,7 @@ const UserMenu: React.FC = () => {
 
                         {isAdmin && (
                             <>
-                                <div className="my-2 h-px bg-[#1f1f1f]" />
+                                <div className="my-2 h-px bg-[#1f1f1f]"/>
                                 <Link
                                     to="/admin"
                                     className="px-3 py-2 text-sm rounded-lg hover:bg-[#1a1a1a] text-neutral-200"
@@ -153,7 +153,7 @@ const UserMenu: React.FC = () => {
                         )}
                     </div>
 
-                    <div className="my-2 h-px bg-[#1f1f1f]" />
+                    <div className="my-2 h-px bg-[#1f1f1f]"/>
 
                     <button
                         onClick={() => {
@@ -183,13 +183,24 @@ const UserLayout: React.FC = () => {
         <div className="min-h-screen bg-[#0f0f0f] text-white">
             {/* Top bar */}
             <header className="sticky top-0 z-20 bg-[#0f0f0f]/80 backdrop-blur border-b border-[#262626]">
-                <div className="mx-auto max-w-6xl px-4 h-14 flex items-center gap-4">
+                <div className="mx-auto max-w-7xl px-4 h-14 flex items-center gap-4">
                     {/* Logo */}
                     <Link to="/" className="font-extrabold tracking-tight whitespace-nowrap">
                         <span className="text-[#1DB954]">Viet</span>
                         <span className="text-[#3ea6c1]">Sound</span>
                     </Link>
-
+                    <nav className="border-t border-[#161616]">
+                        <div className="mx-auto max-w-6xl px-4 flex items-center gap-6">
+                            <NavLink to="/" end className={({isActive}) => navItemClass(isActive)}>
+                                Home
+                            </NavLink>
+                            {authed && (
+                                <NavLink to="/library" className={({isActive}) => navItemClass(isActive)}>
+                                    Library
+                                </NavLink>
+                            )}
+                        </div>
+                    </nav>
                     {/* Search (center) */}
                     <div className="hidden md:flex flex-1">
                         <div className="relative w-full">
@@ -208,8 +219,8 @@ const UserLayout: React.FC = () => {
                     <div className="ml-auto flex items-center gap-3">
                         {authed ? (
                             <>
-                                <UploadButton />
-                                <UserMenu />
+                                <UploadButton/>
+                                <UserMenu/>
                             </>
                         ) : (
                             <>
@@ -232,58 +243,19 @@ const UserLayout: React.FC = () => {
                 </div>
 
                 {/* Secondary nav */}
-                <nav className="border-t border-[#161616]">
-                    <div className="mx-auto max-w-6xl px-4 flex items-center gap-6">
-                        <NavLink to="/" end className={({ isActive }) => navItemClass(isActive)}>
-                            Home
-                        </NavLink>
-                        {authed && (
-                            <NavLink to="/library" className={({ isActive }) => navItemClass(isActive)}>
-                                Library
-                            </NavLink>
-                        )}
-                    </div>
-                </nav>
+
             </header>
 
             {/* Hero khi chưa đăng nhập */}
-            {!authed && (
-                <section className="border-b border-[#161616]">
-                    <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-                        <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">
-                            What’s next in music is first on{" "}
-                            <span className="text-[#1DB954]">SacViet</span>
-                            <span className="text-[#3ea6c1]">Sound</span>
-                        </h1>
-                        <p className="text-neutral-300 mt-2">
-                            Join to stream tracks, follow artists you love, and upload your first song.
-                        </p>
-                        <div className="mt-6 flex flex-wrap gap-3">
-                            <Link
-                                to="/register"
-                                className="px-5 py-2.5 rounded-full font-semibold text-black"
-                                style={{ background: "linear-gradient(90deg,#1DB954,#3ea6c1)" }}
-                            >
-                                Create account
-                            </Link>
-                            <Link
-                                to="/login"
-                                className="px-5 py-2.5 rounded-full border border-[#2a2a2a] text-white hover:bg-[#1a1a1a]"
-                            >
-                                Sign in
-                            </Link>
-                        </div>
-                    </div>
-                </section>
-            )}
+
 
             {/* Page content */}
-            <main className="mx-auto max-w-6xl px-4 py-6 pb-28">
-                <Outlet />
-                <MusicPlayer />
+            <main className="mx-auto max-w-7xl px-4 py-6 pb-28">
+                <Outlet/>
+                <MusicPlayer/>
             </main>
 
-            <footer className="h-0" />
+            <footer className="h-0"/>
         </div>
     );
 };

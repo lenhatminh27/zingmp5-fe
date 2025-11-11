@@ -36,7 +36,7 @@ const ArtistSidebar: React.FC = () => {
 
     return (
         // `hidden lg:block` để ẩn sidebar trên màn hình nhỏ
-        <aside className="hidden lg:block w-72 shrink-0 p-4 space-y-4">
+        <aside className="hidden lg:block w-90 shrink-0 p-4 space-y-4">
             <div className="bg-[#181818] rounded-xl p-4">
                 <h3 className="font-bold text-white mb-4">Who to follow</h3>
 

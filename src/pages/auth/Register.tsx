@@ -21,11 +21,11 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div className="min-h-[calc(100vh-56px)] flex items-center justify-center px-4 py-8">
+        <div className="flex justify-center">
             <div className="w-full max-w-md bg-[#121212] border border-[#262626] rounded-2xl p-6">
                 <h1 className="text-2xl font-bold mb-1">Create your account</h1>
                 <p className="text-neutral-400 mb-6 text-sm">
-                    Tham gia SacSound để khám phá âm nhạc.
+                    Tham gia VietSound để khám phá âm nhạc.
                 </p>
 
                 <Form form={form} layout="vertical" onFinish={onFinish}>

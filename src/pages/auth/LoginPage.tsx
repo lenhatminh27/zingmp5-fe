@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Form, Input} from "antd";
 import {useAuth} from "../../hooks/useAuth";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 type LoginForm = { email: string; password: string };
 
@@ -9,20 +9,18 @@ const Login: React.FC = () => {
     const {login, isLoading} = useAuth();
     const [form] = Form.useForm<LoginForm>();
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = (location.state as any)?.from?.pathname || "/";
 
     const onFinish = async (values: LoginForm) => {
         try {
             await login(values);
-            navigate(from, {replace: true});
-        } catch {
-            // error đã được getErrorMessage handle trong hook
+            navigate("/", {replace: true});
+        } catch (error) {
+            console.log(error);
         }
     };
 
     return (
-        <div className="min-h-[calc(100vh-56px)] flex items-center justify-center px-4 py-8">
+        <div className="flex justify-center px-4">
             <div className="w-full max-w-md bg-[#121212] border border-[#262626] rounded-2xl p-6">
                 <h1 className="text-2xl font-bold mb-1">Welcome back</h1>
                 <p className="text-neutral-400 mb-6 text-sm">

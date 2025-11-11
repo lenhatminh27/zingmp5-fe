@@ -6,7 +6,7 @@ import type {IArtist} from "../../../types/model.type.ts";
 
 const MusicPlayer: React.FC = () => {
     const dispatch = useDispatch();
-    const {currentSong, isPlaying, currentIndex, queue} = useSelector(selectPlayer);
+    const {currentSong, isPlaying} = useSelector(selectPlayer);
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const [currentTime, setCurrentTime] = useState(0);
@@ -74,8 +74,8 @@ const MusicPlayer: React.FC = () => {
             <div className="flex items-center gap-3 w-1/4">
                 <img src={cover} alt={currentSong.title} className="w-14 h-14 rounded-md"/>
                 <div>
-                    <h4 className="font-semibold truncate">{currentSong.title}</h4>
-                    <p className="text-xs text-neutral-400 truncate">{artistNames}</p>
+                    <h4 className="hidden md:flex font-semibold truncate">{currentSong.title}</h4>
+                    <p className="hidden md:flex text-xs text-neutral-400 truncate">{artistNames}</p>
                 </div>
             </div>
 

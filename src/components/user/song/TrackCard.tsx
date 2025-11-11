@@ -14,6 +14,7 @@ const TrackCard: React.FC<Props> = ({song, onPlay, onMore}) => {
         "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><rect width='100%' height='100%' fill='%231a1a1a'/></svg>";
 
     const artistNames = getArtistNames(song.artists as any);
+    console.log(onMore)
 
     return (
         <article

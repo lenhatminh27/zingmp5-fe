@@ -32,11 +32,9 @@ export interface IAlbum {
 
 export interface IArtist {
     _id: string;
-    userId: string;               // ref "User"
+    userId: IAccount;               // ref "User"
     stageName: string;
     bio?: string;
-    avatarUrl?: string;
-    bannerUrl?: string;
     location?: string;
     genreFocus?: string[];        // Genre ids
     socialLinks?: {
